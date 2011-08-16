@@ -1,0 +1,243 @@
+/*
+ * This software is licensed under the terms of the ISC License.
+ * (ISCL http://www.opensource.org/licenses/isc-license.txt
+ * It is functionally equivalent to the 2-clause BSD licence,
+ * with language "made unnecessary by the Berne convention" removed).
+ * 
+ * Copyright (c) 2011, Mike Norman
+ * 
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+ * RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
+ * USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ */
+options {
+      STATIC = false;
+      SUPPORT_CLASS_VISIBILITY_PUBLIC = true;
+      ERROR_REPORTING = false;
+      JAVA_UNICODE_ESCAPE = true;
+      UNICODE_INPUT = true;
+      NODE_USES_PARSER = false;
+      VISITOR = false;
+}
+
+PARSER_BEGIN(JSONParser)
+/*
+ * This software is licensed under the terms of the ISC License.
+ * (ISCL http://www.opensource.org/licenses/isc-license.txt
+ * It is functionally equivalent to the 2-clause BSD licence,
+ * with language "made unnecessary by the Berne convention" removed).
+ * 
+ * Copyright (c) 2011, Mike Norman
+ * 
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+ * RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ * NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE
+ * USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ */
+package org.mwnorman.json;
+
+//javase imports
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class JSONParser {
+
+    public JSONParser() {
+        super();
+    }
+}
+
+PARSER_END(JSONParser)
+
+// Pls see http://www.ietf.org/rfc/rfc4627.txt for JSON spec details
+
+// white space 
+SKIP: {
+        " "
+    |   "\t"
+    |   "\n"
+    |   "\r"
+    |   "\f"
+}
+// comments: not really part of JSON spec, but parser shouldn't blow-up if present
+SKIP: {
+    <COMMENT_LINE: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+}
+SKIP: {
+    <COMMENT_BLOCK: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+}
+
+// JSON reserved keywords (prefix with K_ to avoid naming conflicts): only lower case allowed!
+TOKEN: {
+        <K_TRUE: "true">
+    |   <K_FALSE: "false">
+    |   <K_NULL: "null">
+}
+
+// JSON operators (prefix with O_ to avoid naming conflicts)
+TOKEN: {
+        <O_OPENBRACE: "{">
+    |   <O_CLOSEBRACE: "}">
+    |   <O_OPENBRACKET: "[">
+    |   <O_CLOSEBRACKET: "]">
+    |   <O_COMMA: ",">
+    |   <O_COLON: ":">
+    |   <O_DOT: ".">
+    |   <O_PLUS: "+">
+    |   <O_MINUS: "-">  
+}
+
+// numeric literals
+TOKEN: {
+        <#DIGIT: ["0" - "9"] >
+    |   <#NONZERO_DIGIT: ["1" - "9"] >
+    |   <#EXP: ["e", "E"] ( <O_PLUS > | <O_MINUS > )? >
+}
+// JSON numbers do not support octal or hexadecimal formats
+TOKEN: {
+  
+        <NUMBER:  <INTEGER> | <INTEGER> <FRACTIONAL_DIGITS> | <INTEGER> <EXPONENT> | <INTEGER> <FRACTIONAL_DIGITS> <EXPONENT> >
+    |   <INTEGER: (<O_MINUS>)? ( <DIGIT> | <NONZERO_DIGIT> <DIGITS>) >
+    |   <FRACTIONAL_DIGITS: <O_DOT> <DIGITS > >
+    |   <EXPONENT: <EXP> <DIGITS> >
+    |   <DIGITS: ( <DIGIT> )+ >
+}
+
+// string literals
+TOKEN: {
+        <STRING: "\"" ( <ALLOWABLE_CHARACTERS> )* "\"" >
+    |   <ALLOWABLE_CHARACTERS:(   
+	        (~["\"", "\\", "\u0000"-"\u001f"])
+	           | ("\\"
+	            ( ["u"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"]
+	                | ["\"", "\\", "b", "f", "n", "r", "t"]
+	                )
+	            )
+	        )
+	    >
+}
+
+Object parse() #void:
+{
+Object o = null;
+}
+{
+    ( o=object() | o=array() )
+    {
+        return o;
+    }
+}
+
+Object object() #void:
+{
+Map<String, Object> m = new LinkedHashMap<String, Object>();
+}
+{
+    <O_OPENBRACE> ( members(m) )? <O_CLOSEBRACE>
+    {
+        return m;
+    }
+}
+
+void members(Map<String, Object> m) #void:
+{
+}
+{
+    pair(m) [ <O_COMMA> members(m) ]
+}
+
+void pair(Map<String, Object> m) #void:
+{
+Token t = null;
+Object o;
+}
+{
+    t=<STRING> <O_COLON> o=value()
+    {
+        m.put(t.image, o);
+    }
+}
+
+Object array() #void:
+{
+List<Object> a=new ArrayList<Object>();
+}
+{
+    <O_OPENBRACKET> ( elements(a) )? <O_CLOSEBRACKET>
+    {
+        Collections.reverse(a);
+        return a;
+    }
+}
+
+void elements(List<Object> a) #void:
+{
+Object o = null;
+}
+{
+    o=value() [ <O_COMMA> elements(a) ]
+    {
+        a.add(o);
+    }
+}
+
+Object value() #void:
+{
+Token t = null;
+Object o = null;
+}
+{
+    (   o=object()
+    |   o=array() 
+    |   t=<STRING> {o = t.image;}
+    |   t=<NUMBER>
+        {
+            try {
+              o = Integer.valueOf(t.image);
+            }
+            catch (NumberFormatException nfe1) {
+                try {
+                    o = Long.valueOf(t.image);
+                }
+                catch (NumberFormatException nfe2) {
+                    try {
+                        o = Float.valueOf(t.image);
+                    }
+                    catch (NumberFormatException nfe3) {
+                        try {
+                            o = Double.valueOf(t.image);
+                        }
+                        catch  (NumberFormatException nfe4) {
+                            o = Double.NaN;
+                        }
+                    }
+                }
+            }
+        }
+    |   <K_TRUE> {o = Boolean.TRUE;}
+    |   <K_FALSE> {o = Boolean.TRUE;}
+    |   <K_NULL> )
+    {
+        return o;
+    }
+}
