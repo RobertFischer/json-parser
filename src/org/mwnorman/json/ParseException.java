@@ -32,6 +32,7 @@ package org.mwnorman.json;
  * You can modify this class to customize your error reporting
  * mechanisms so long as you retain the public fields.
  */
+@SuppressWarnings("all")
 public class ParseException extends Exception {
 
   /**

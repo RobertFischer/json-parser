@@ -29,6 +29,7 @@ package org.mwnorman.json;
  */
 
 public
+@SuppressWarnings("all")
 class JavaCharStream
 {
   /** Whether parser is static. */

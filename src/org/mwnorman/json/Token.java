@@ -27,6 +27,7 @@ package org.mwnorman.json;
  * Describes the input token stream.
  */
 
+@SuppressWarnings("all")
 public class Token implements java.io.Serializable {
 
   /**

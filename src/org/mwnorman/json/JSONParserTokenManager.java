@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 /** Token Manager. */
+@SuppressWarnings("all")
 public class JSONParserTokenManager implements JSONParserConstants
 {
 

@@ -24,6 +24,7 @@
 package org.mwnorman.json;
 
 /** Token Manager Error. */
+@SuppressWarnings("all")
 public class TokenMgrError extends Error
 {
 

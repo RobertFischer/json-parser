@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public class JSONParser/*@bgen(jjtree)*/implements JSONParserTreeConstants, JSONParserConstants {/*@bgen(jjtree)*/
   protected JJTJSONParserState jjtree = new JJTJSONParserState();
     public JSONParser() {
