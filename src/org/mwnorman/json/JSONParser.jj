@@ -91,6 +91,10 @@ SKIP: {
     <COMMENT_BLOCK: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
 }
 
+SKIP: {
+    <HTML_COMMENT: "<!--" (~["-"])* "-" ("-" | (~["-",">"] (~["-"])* "-"))* ">">
+}
+
 // JSON reserved keywords (prefix with K_ to avoid naming conflicts): only lower case allowed!
 TOKEN: {
         <K_TRUE: "true">

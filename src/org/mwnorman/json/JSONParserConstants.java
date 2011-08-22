@@ -37,49 +37,51 @@ public interface JSONParserConstants {
   /** RegularExpression Id. */
   int COMMENT_BLOCK = 7;
   /** RegularExpression Id. */
-  int K_TRUE = 8;
+  int HTML_COMMENT = 8;
   /** RegularExpression Id. */
-  int K_FALSE = 9;
+  int K_TRUE = 9;
   /** RegularExpression Id. */
-  int K_NULL = 10;
+  int K_FALSE = 10;
   /** RegularExpression Id. */
-  int O_OPENBRACE = 11;
+  int K_NULL = 11;
   /** RegularExpression Id. */
-  int O_CLOSEBRACE = 12;
+  int O_OPENBRACE = 12;
   /** RegularExpression Id. */
-  int O_OPENBRACKET = 13;
+  int O_CLOSEBRACE = 13;
   /** RegularExpression Id. */
-  int O_CLOSEBRACKET = 14;
+  int O_OPENBRACKET = 14;
   /** RegularExpression Id. */
-  int O_COMMA = 15;
+  int O_CLOSEBRACKET = 15;
   /** RegularExpression Id. */
-  int O_COLON = 16;
+  int O_COMMA = 16;
   /** RegularExpression Id. */
-  int O_DOT = 17;
+  int O_COLON = 17;
   /** RegularExpression Id. */
-  int O_PLUS = 18;
+  int O_DOT = 18;
   /** RegularExpression Id. */
-  int O_MINUS = 19;
+  int O_PLUS = 19;
   /** RegularExpression Id. */
-  int DIGIT = 20;
+  int O_MINUS = 20;
   /** RegularExpression Id. */
-  int NONZERO_DIGIT = 21;
+  int DIGIT = 21;
   /** RegularExpression Id. */
-  int EXP = 22;
+  int NONZERO_DIGIT = 22;
   /** RegularExpression Id. */
-  int NUMBER = 23;
+  int EXP = 23;
   /** RegularExpression Id. */
-  int INTEGER = 24;
+  int NUMBER = 24;
   /** RegularExpression Id. */
-  int FRACTIONAL_DIGITS = 25;
+  int INTEGER = 25;
   /** RegularExpression Id. */
-  int EXPONENT = 26;
+  int FRACTIONAL_DIGITS = 26;
   /** RegularExpression Id. */
-  int DIGITS = 27;
+  int EXPONENT = 27;
   /** RegularExpression Id. */
-  int STRING = 28;
+  int DIGITS = 28;
   /** RegularExpression Id. */
-  int ALLOWABLE_CHARACTERS = 29;
+  int STRING = 29;
+  /** RegularExpression Id. */
+  int ALLOWABLE_CHARACTERS = 30;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -94,6 +96,7 @@ public interface JSONParserConstants {
     "\"\\f\"",
     "<COMMENT_LINE>",
     "<COMMENT_BLOCK>",
+    "<HTML_COMMENT>",
     "\"true\"",
     "\"false\"",
     "\"null\"",
