@@ -5,10 +5,14 @@ package org.mwnorman.json;
 public interface JSONParserTreeConstants
 {
   public int JJTVOID = 0;
+  public int JJTSTRIPOFFQUOTES = 1;
+  public int JJTDECODEBACKSLASH = 2;
 
 
   public String[] jjtNodeName = {
     "void",
+    "stripOffQuotes",
+    "decodeBackslash",
   };
 }
-/* JavaCC - OriginalChecksum=49c8f3c046c6c0634a7beb30ffa9c5bc (do not edit this line) */
+/* JavaCC - OriginalChecksum=b1fcaefa003d256d821a94ead300f806 (do not edit this line) */
