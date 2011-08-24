@@ -129,16 +129,23 @@ TOKEN: {
 
 // string literals
 TOKEN: {
-        <STRING: "\"" ( <ALLOWABLE_CHARACTERS> )* "\"" >
-    |   <ALLOWABLE_CHARACTERS:(   
-	        (~["\"", "\\", "\u0000"-"\u001f"])
-	           | ("\\"
-	            ( ["u"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"]
-	                | ["\"", "\\", "b", "f", "n", "r", "t"]
-	                )
+    <ALLOWABLE_CHARACTERS:(   
+	    (~["\"", "\\", "\u0000"-"\u001f"])
+	       | ("\\"
+	        ( ["u"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"] ["0"-"9","a"-"f", "A"-"F"]
+	            | ["\"", "\\", "b", "f", "n", "r", "t"]
 	            )
 	        )
-	    >
+	    )
+	>
+}
+
+TOKEN: {
+        <UNQUOTED_STRING: ( <ALLOWABLE_CHARACTERS> )* >
+}
+
+TOKEN: {
+        <STRING: "\"" ( <ALLOWABLE_CHARACTERS> )* "\"" >
 }
 
 Object parse() #void:
@@ -176,7 +183,7 @@ Token t = null;
 Object o;
 }
 {
-    t=<STRING> <O_COLON> o=value()
+    [ t=<UNQUOTED_STRING> | t=<STRING> ] <O_COLON> o=value()
     {
         m.put(t.image, o);
     }

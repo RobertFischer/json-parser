@@ -57,6 +57,8 @@ Object o = null;
 Map<String, Object> m = new LinkedHashMap<String, Object>();
     jj_consume_token(O_OPENBRACE);
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case O_COLON:
+    case UNQUOTED_STRING:
     case STRING:
       members(m);
       break;
@@ -83,7 +85,24 @@ Map<String, Object> m = new LinkedHashMap<String, Object>();
   final public void pair(Map<String, Object> m) throws ParseException {
 Token t = null;
 Object o;
-    t = jj_consume_token(STRING);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case UNQUOTED_STRING:
+    case STRING:
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case UNQUOTED_STRING:
+        t = jj_consume_token(UNQUOTED_STRING);
+        break;
+      case STRING:
+        t = jj_consume_token(STRING);
+        break;
+      default:
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      break;
+    default:
+      ;
+    }
     jj_consume_token(O_COLON);
     o = value();
         m.put(t.image, o);

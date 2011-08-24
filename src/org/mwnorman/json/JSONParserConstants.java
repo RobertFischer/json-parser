@@ -79,9 +79,11 @@ public interface JSONParserConstants {
   /** RegularExpression Id. */
   int DIGITS = 28;
   /** RegularExpression Id. */
-  int STRING = 29;
+  int ALLOWABLE_CHARACTERS = 29;
   /** RegularExpression Id. */
-  int ALLOWABLE_CHARACTERS = 30;
+  int UNQUOTED_STRING = 30;
+  /** RegularExpression Id. */
+  int STRING = 31;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -117,8 +119,9 @@ public interface JSONParserConstants {
     "<FRACTIONAL_DIGITS>",
     "<EXPONENT>",
     "<DIGITS>",
-    "<STRING>",
     "<ALLOWABLE_CHARACTERS>",
+    "<UNQUOTED_STRING>",
+    "<STRING>",
   };
 
 }
