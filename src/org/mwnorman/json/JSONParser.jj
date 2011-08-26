@@ -192,53 +192,178 @@ TOKEN: {
     |   <UNQUOTED_STRING: (~[" ","\r","\n","\t","{","}","[","]",",",":","\"","'"])+>
 }
 
-Object parse()      :
-{
+Object parse():
+{/*@bgen(jjtree) parse */
+SimpleNode jjtn000 = new SimpleNode(JJTPARSE);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 Object o = null;
 }
-{
-    ( o=object() | o=array() )
+{/*@bgen(jjtree) parse */
+    try {
+/*@egen*/
+    ( o=object() | o=array() )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
         return o;
-    }
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
 }
 
-Object object()      :
-{
+Object object():
+{/*@bgen(jjtree) object */
+SimpleNode jjtn000 = new SimpleNode(JJTOBJECT);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 Map<String, Object> m = new LinkedHashMap<String, Object>();
 }
-{
-    <O_OPENBRACE> ( members(m) )? <O_CLOSEBRACE>
+{/*@bgen(jjtree) object */
+    try {
+/*@egen*/
+    <O_OPENBRACE> ( members(m) )? <O_CLOSEBRACE>/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
         return m;
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
     }
+/*@egen*/
 }
 
-void members(Map<String, Object> m)      :
-{
+void members(Map<String, Object> m):
+{/*@bgen(jjtree) members */
+  SimpleNode jjtn000 = new SimpleNode(JJTMEMBERS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+/*@egen*/
 }
-{
-    pair(m) [ <O_COMMA> members(m) ]
+{/*@bgen(jjtree) members */
+    try {
+/*@egen*/
+    pair(m) [ <O_COMMA> members(m) ]/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
 }
 
-void pair(Map<String, Object> m)      :
-{
+void pair(Map<String, Object> m):
+{/*@bgen(jjtree) pair */
+SimpleNode jjtn000 = new SimpleNode(JJTPAIR);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 Token t = null;
 Object o;
 String fieldName = null;
 }
-{
-    fieldName=fieldName() <O_COLON> o=value()
+{/*@bgen(jjtree) pair */
+    try {
+/*@egen*/
+    fieldName=fieldName() <O_COLON> o=value()/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
         m.put(fieldName, o);
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
     }
+/*@egen*/
 }
 
-String fieldName()      :
-{
+String fieldName():
+{/*@bgen(jjtree) fieldName */
+SimpleNode jjtn000 = new SimpleNode(JJTFIELDNAME);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 String fieldName = null;
 }
-{
+{/*@bgen(jjtree) fieldName */
+    try {
+/*@egen*/
     (
       <SINGLE_QUOTED_STRING>
         {
@@ -254,10 +379,21 @@ String fieldName = null;
         {
           fieldName = decodeBackslash(token.image);
         }
-    )
+    )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
       return fieldName;
+    }/*@bgen(jjtree)*/
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
     }
+/*@egen*/
 }
 
 JAVACODE
@@ -350,35 +486,103 @@ String decodeBackslash(String s) {/*@bgen(jjtree) decodeBackslash */
 /*@egen*/
 }
 
-Object array()      :
-{
+Object array():
+{/*@bgen(jjtree) array */
+SimpleNode jjtn000 = new SimpleNode(JJTARRAY);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 List<Object> a=new ArrayList<Object>();
 }
-{
-    <O_OPENBRACKET> ( elements(a) )? <O_CLOSEBRACKET>
+{/*@bgen(jjtree) array */
+    try {
+/*@egen*/
+    <O_OPENBRACKET> ( elements(a) )? <O_CLOSEBRACKET>/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
         Collections.reverse(a);
         return a;
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
     }
+/*@egen*/
 }
 
-void elements(List<Object> a)      :
-{
+void elements(List<Object> a):
+{/*@bgen(jjtree) elements */
+SimpleNode jjtn000 = new SimpleNode(JJTELEMENTS);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 Object o = null;
 }
-{
-    o=value() [ <O_COMMA> elements(a) ]
+{/*@bgen(jjtree) elements */
+    try {
+/*@egen*/
+    o=value() [ <O_COMMA> elements(a) ]/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
         a.add(o);
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
     }
+/*@egen*/
 }
 
-Object value()      :
-{
+Object value():
+{/*@bgen(jjtree) value */
+SimpleNode jjtn000 = new SimpleNode(JJTVALUE);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);
+/*@egen*/
 Token t = null;
 Object o = null;
 }
-{
+{/*@bgen(jjtree) value */
+    try {
+/*@egen*/
     (   o=object()
     |   o=array()
     |   t=<SINGLE_QUOTED_STRING> {o = stripOffQuotes(decodeBackslash(t.image));}
@@ -409,8 +613,33 @@ Object o = null;
         }
     |   <K_TRUE> {o = Boolean.TRUE;}
     |   <K_FALSE> {o = Boolean.TRUE;}
-    |   <K_NULL> )
+    |   <K_NULL> )/*@bgen(jjtree)*/
+    {
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
+    }
+/*@egen*/
     {
         return o;
-    }
+    }/*@bgen(jjtree)*/
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        throw (RuntimeException)jjte000;
+      }
+      if (jjte000 instanceof ParseException) {
+        throw (ParseException)jjte000;
+      }
+      throw (Error)jjte000;
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
+/*@egen*/
 }

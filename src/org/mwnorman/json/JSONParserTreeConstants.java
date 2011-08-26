@@ -4,15 +4,29 @@ package org.mwnorman.json;
 @SuppressWarnings("all")
 public interface JSONParserTreeConstants
 {
-  public int JJTVOID = 0;
-  public int JJTSTRIPOFFQUOTES = 1;
-  public int JJTDECODEBACKSLASH = 2;
+  public int JJTPARSE = 0;
+  public int JJTOBJECT = 1;
+  public int JJTMEMBERS = 2;
+  public int JJTPAIR = 3;
+  public int JJTFIELDNAME = 4;
+  public int JJTSTRIPOFFQUOTES = 5;
+  public int JJTDECODEBACKSLASH = 6;
+  public int JJTARRAY = 7;
+  public int JJTELEMENTS = 8;
+  public int JJTVALUE = 9;
 
 
   public String[] jjtNodeName = {
-    "void",
+    "parse",
+    "object",
+    "members",
+    "pair",
+    "fieldName",
     "stripOffQuotes",
     "decodeBackslash",
+    "array",
+    "elements",
+    "value",
   };
 }
-/* JavaCC - OriginalChecksum=b1fcaefa003d256d821a94ead300f806 (do not edit this line) */
+/* JavaCC - OriginalChecksum=7748342472fa115c247487af66103579 (do not edit this line) */

@@ -67,81 +67,191 @@ public class JSONParser/*@bgen(jjtree)*/implements JSONParserTreeConstants, JSON
     }
 
   final public Object parse() throws ParseException {
-Object o = null;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case O_OPENBRACE:
-      o = object();
-      break;
-    case O_OPENBRACKET:
-      o = array();
-      break;
-    default:
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+ /*@bgen(jjtree) parse */
+SimpleNode jjtn000 = new SimpleNode(JJTPARSE);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);Object o = null;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case O_OPENBRACE:
+        o = object();
+        break;
+      case O_OPENBRACKET:
+        o = array();
+        break;
+      default:
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
         {if (true) return o;}
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
     throw new Error("Missing return statement in function");
   }
 
   final public Object object() throws ParseException {
-Map<String, Object> m = new LinkedHashMap<String, Object>();
-    jj_consume_token(O_OPENBRACE);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case SINGLE_QUOTED_STRING:
-    case QUOTED_STRING:
-    case UNQUOTED_STRING:
-      members(m);
-      break;
-    default:
-      ;
-    }
-    jj_consume_token(O_CLOSEBRACE);
+ /*@bgen(jjtree) object */
+SimpleNode jjtn000 = new SimpleNode(JJTOBJECT);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);Map<String, Object> m = new LinkedHashMap<String, Object>();
+    try {
+      jj_consume_token(O_OPENBRACE);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case SINGLE_QUOTED_STRING:
+      case QUOTED_STRING:
+      case UNQUOTED_STRING:
+        members(m);
+        break;
+      default:
+        ;
+      }
+      jj_consume_token(O_CLOSEBRACE);
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
         {if (true) return m;}
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
     throw new Error("Missing return statement in function");
   }
 
   final public void members(Map<String, Object> m) throws ParseException {
-    pair(m);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case O_COMMA:
-      jj_consume_token(O_COMMA);
-      members(m);
-      break;
-    default:
-      ;
+ /*@bgen(jjtree) members */
+  SimpleNode jjtn000 = new SimpleNode(JJTMEMBERS);
+  boolean jjtc000 = true;
+  jjtree.openNodeScope(jjtn000);
+    try {
+      pair(m);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case O_COMMA:
+        jj_consume_token(O_COMMA);
+        members(m);
+        break;
+      default:
+        ;
+      }
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
     }
   }
 
   final public void pair(Map<String, Object> m) throws ParseException {
-Token t = null;
+ /*@bgen(jjtree) pair */
+SimpleNode jjtn000 = new SimpleNode(JJTPAIR);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);Token t = null;
 Object o;
 String fieldName = null;
-    fieldName = fieldName();
-    jj_consume_token(O_COLON);
-    o = value();
+    try {
+      fieldName = fieldName();
+      jj_consume_token(O_COLON);
+      o = value();
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
         m.put(fieldName, o);
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
   }
 
   final public String fieldName() throws ParseException {
-String fieldName = null;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case SINGLE_QUOTED_STRING:
-      jj_consume_token(SINGLE_QUOTED_STRING);
+ /*@bgen(jjtree) fieldName */
+SimpleNode jjtn000 = new SimpleNode(JJTFIELDNAME);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);String fieldName = null;
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case SINGLE_QUOTED_STRING:
+        jj_consume_token(SINGLE_QUOTED_STRING);
           fieldName = stripOffQuotes(decodeBackslash(token.image));
-      break;
-    case QUOTED_STRING:
-      jj_consume_token(QUOTED_STRING);
+        break;
+      case QUOTED_STRING:
+        jj_consume_token(QUOTED_STRING);
           fieldName = stripOffQuotes(decodeBackslash(token.image));
-      break;
-    case UNQUOTED_STRING:
-      jj_consume_token(UNQUOTED_STRING);
+        break;
+      case UNQUOTED_STRING:
+        jj_consume_token(UNQUOTED_STRING);
           fieldName = decodeBackslash(token.image);
-      break;
-    default:
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+        break;
+      default:
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
       {if (true) return fieldName;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
     throw new Error("Missing return statement in function");
   }
 
@@ -230,62 +340,116 @@ String fieldName = null;
   }
 
   final public Object array() throws ParseException {
-List<Object> a=new ArrayList<Object>();
-    jj_consume_token(O_OPENBRACKET);
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case K_TRUE:
-    case K_FALSE:
-    case K_NULL:
-    case O_OPENBRACE:
-    case O_OPENBRACKET:
-    case NUMBER:
-    case SINGLE_QUOTED_STRING:
-    case QUOTED_STRING:
-      elements(a);
-      break;
-    default:
-      ;
-    }
-    jj_consume_token(O_CLOSEBRACKET);
+ /*@bgen(jjtree) array */
+SimpleNode jjtn000 = new SimpleNode(JJTARRAY);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);List<Object> a=new ArrayList<Object>();
+    try {
+      jj_consume_token(O_OPENBRACKET);
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case K_TRUE:
+      case K_FALSE:
+      case K_NULL:
+      case O_OPENBRACE:
+      case O_OPENBRACKET:
+      case NUMBER:
+      case SINGLE_QUOTED_STRING:
+      case QUOTED_STRING:
+        elements(a);
+        break;
+      default:
+        ;
+      }
+      jj_consume_token(O_CLOSEBRACKET);
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
         Collections.reverse(a);
         {if (true) return a;}
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
     throw new Error("Missing return statement in function");
   }
 
   final public void elements(List<Object> a) throws ParseException {
-Object o = null;
-    o = value();
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case O_COMMA:
-      jj_consume_token(O_COMMA);
-      elements(a);
-      break;
-    default:
-      ;
-    }
+ /*@bgen(jjtree) elements */
+SimpleNode jjtn000 = new SimpleNode(JJTELEMENTS);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);Object o = null;
+    try {
+      o = value();
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case O_COMMA:
+        jj_consume_token(O_COMMA);
+        elements(a);
+        break;
+      default:
+        ;
+      }
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
         a.add(o);
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
   }
 
   final public Object value() throws ParseException {
-Token t = null;
+ /*@bgen(jjtree) value */
+SimpleNode jjtn000 = new SimpleNode(JJTVALUE);
+boolean jjtc000 = true;
+jjtree.openNodeScope(jjtn000);Token t = null;
 Object o = null;
-    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-    case O_OPENBRACE:
-      o = object();
-      break;
-    case O_OPENBRACKET:
-      o = array();
-      break;
-    case SINGLE_QUOTED_STRING:
-      t = jj_consume_token(SINGLE_QUOTED_STRING);
+    try {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case O_OPENBRACE:
+        o = object();
+        break;
+      case O_OPENBRACKET:
+        o = array();
+        break;
+      case SINGLE_QUOTED_STRING:
+        t = jj_consume_token(SINGLE_QUOTED_STRING);
                                   o = stripOffQuotes(decodeBackslash(t.image));
-      break;
-    case QUOTED_STRING:
-      t = jj_consume_token(QUOTED_STRING);
+        break;
+      case QUOTED_STRING:
+        t = jj_consume_token(QUOTED_STRING);
                            o = stripOffQuotes(decodeBackslash(t.image));
-      break;
-    case NUMBER:
-      t = jj_consume_token(NUMBER);
+        break;
+      case NUMBER:
+        t = jj_consume_token(NUMBER);
             try {
               o = Integer.valueOf(t.image);
 
@@ -309,23 +473,44 @@ Object o = null;
                 }
 
             }
-      break;
-    case K_TRUE:
-      jj_consume_token(K_TRUE);
+        break;
+      case K_TRUE:
+        jj_consume_token(K_TRUE);
                   o = Boolean.TRUE;
-      break;
-    case K_FALSE:
-      jj_consume_token(K_FALSE);
+        break;
+      case K_FALSE:
+        jj_consume_token(K_FALSE);
                    o = Boolean.TRUE;
-      break;
-    case K_NULL:
-      jj_consume_token(K_NULL);
-      break;
-    default:
-      jj_consume_token(-1);
-      throw new ParseException();
-    }
+        break;
+      case K_NULL:
+        jj_consume_token(K_NULL);
+        break;
+      default:
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      jjtree.closeNodeScope(jjtn000, true);
+      jjtc000 = false;
         {if (true) return o;}
+    } catch (Throwable jjte000) {
+      if (jjtc000) {
+        jjtree.clearNodeScope(jjtn000);
+        jjtc000 = false;
+      } else {
+        jjtree.popNode();
+      }
+      if (jjte000 instanceof RuntimeException) {
+        {if (true) throw (RuntimeException)jjte000;}
+      }
+      if (jjte000 instanceof ParseException) {
+        {if (true) throw (ParseException)jjte000;}
+      }
+      {if (true) throw (Error)jjte000;}
+    } finally {
+      if (jjtc000) {
+        jjtree.closeNodeScope(jjtn000, true);
+      }
+    }
     throw new Error("Missing return statement in function");
   }
 

@@ -188,7 +188,7 @@ TOKEN: {
     |   <UNQUOTED_STRING: (~[" ","\r","\n","\t","{","}","[","]",",",":","\"","'"])+>
 }
 
-Object parse() #void:
+Object parse():
 {
 Object o = null;
 }
@@ -199,7 +199,7 @@ Object o = null;
     }
 }
 
-Object object() #void:
+Object object():
 {
 Map<String, Object> m = new LinkedHashMap<String, Object>();
 }
@@ -210,14 +210,14 @@ Map<String, Object> m = new LinkedHashMap<String, Object>();
     }
 }
 
-void members(Map<String, Object> m) #void:
+void members(Map<String, Object> m):
 {
 }
 {
     pair(m) [ <O_COMMA> members(m) ]
 }
 
-void pair(Map<String, Object> m) #void:
+void pair(Map<String, Object> m):
 {
 Token t = null;
 Object o;
@@ -230,7 +230,7 @@ String fieldName = null;
     }
 }
 
-String fieldName() #void:
+String fieldName():
 {
 String fieldName = null;
 }
@@ -324,7 +324,7 @@ String decodeBackslash(String s) {
     return sb.toString();
 }
 
-Object array() #void:
+Object array():
 {
 List<Object> a=new ArrayList<Object>();
 }
@@ -336,7 +336,7 @@ List<Object> a=new ArrayList<Object>();
     }
 }
 
-void elements(List<Object> a) #void:
+void elements(List<Object> a):
 {
 Object o = null;
 }
@@ -347,7 +347,7 @@ Object o = null;
     }
 }
 
-Object value() #void:
+Object value():
 {
 Token t = null;
 Object o = null;
