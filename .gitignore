@@ -2,4 +2,4 @@
 *.class
 classes
 bin
-.settings/org.eclipse.jdt.core.prefs
+.settings
