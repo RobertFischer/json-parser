@@ -5,8 +5,8 @@ apply plugin:'java'
 apply plugin:'groovy'
 apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
 
-//apply from:'http://smokejumperit.com/repo.gradle'
-//apply from:'http://smokejumperit.com/github-dev.gradle'
+apply from:'http://smokejumperit.com/repo.gradle'
+apply from:'http://smokejumperit.com/github-dev.gradle'
 
 buildscript {
   repositories {
@@ -15,7 +15,7 @@ buildscript {
 		mavenRepo url:'http://repo.smokejumperit.com'
   }
   dependencies {
-    classpath 'RobertFischer:gradle-javacc-plugin:0.0.4-SNAPSHOT'
+    classpath 'RobertFischer:gradle-javacc-plugin:0.0.4'
   }
 }
 
