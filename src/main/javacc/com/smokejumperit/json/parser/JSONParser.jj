@@ -39,30 +39,41 @@ import java.math.*;
 */
 public class JSONParser {
 
-	private boolean fallbackToString = true;
-
 	public JSONParser(String input) {
     this(new StringReader(input));
   }
 
-	public LinkedHashMap<String,Object> parseObject() throws ParseException { return object(); }
-
-	public ArrayList<Object> parseList() throws ParseException { return list(); }
-
-	public Object parse() throws ParseException { return anything(); }
-
 	/**
-	*	Get whether unparseable value-looking things should be treated as a string.
+	* Parses a JSON object into a Java {@code Map}.
 	*/
-	public boolean getFallbackToString() { 
-		return fallbackToString;
+	public LinkedHashMap<String,Object> parseObject() throws ParseException { 
+		LinkedHashMap<String,Object> toReturn = object(); 
+		if(!ensureEOF()) throw new IllegalStateException("Expected EOF, but still had content to parse");
+		return toReturn;
 	}
 
 	/**
-	*	Set whether unparseable value-looking things should be treated as a string.
+	* Parses a JSON array into a Java {@code List}.
 	*/
-	public void setFallbackToString(boolean value) {
-		fallbackToString = value;
+	public ArrayList<Object> parseArray() throws ParseException {	
+		ArrayList<Object> toReturn = list(); 
+		if(!ensureEOF()) throw new IllegalStateException("Expected EOF, but still had content to parse");
+		return toReturn;
+	}
+
+	/**
+	* Parses any JSON-parseable object, returning the value. 
+	*/
+	public Object parse() throws ParseException { 
+		Object toReturn = anything(); 
+		if(!ensureEOF()) throw new IllegalStateException("Expected EOF, but still had content to parse");
+		return toReturn;
+	}
+
+	private static String substringBefore(String str, char delim) {
+		int pos = str.indexOf(delim);
+		if(pos == -1) return str;
+		return str.substring(0, pos);
 	}
 
 }
@@ -74,11 +85,9 @@ SKIP: {
 	<C_SINGLE_COMMENT: "//" (~["\n","\r","\f"])* <EOL>>
 | <C_MULTILINE_COMMENT: "/*" (~[])* "*/">
 | <SH_SINGLE_COMMENT: "#" (~["\n","\r","\f"])* <EOL>>
+| <WHITESPACE: " " | "\t"> 
+| <EOL: "\n" | "\r" | "\f"> 
 }
-
-// Ignore white space (mostly)
-SKIP : { " " | "\t" }
-TOKEN: { <EOL: "\n" | "\r" | "\f"> }
 
 // Common tokens
 TOKEN: {
@@ -103,17 +112,21 @@ TOKEN:{
 	<#ZERO: "0">
 | <#DIGIT_NONZERO: ["1"-"9"]>
 | <#DIGIT: (<DIGIT_NONZERO> | <ZERO>) >
-| <NUMBER: 
+| <NUMBER_INTEGER:
+		("-")?
+		( (<ZERO>)+ | ( <DIGIT_NONZERO> (<DIGIT>)* ) ) 
+	>
+| <NUMBER_DECIMAL: 
 		("-")?  
-		( <ZERO> | ( <DIGIT_NONZERO> (<DIGIT>)* ) ) 
+		( (<ZERO>)+ | ( <DIGIT_NONZERO> (<DIGIT>)* ) ) 
 		("." 
-			(<DIGIT>)+
+			(<DIGIT>)+  
 			(
 				["e","E"]
 				("+" | "-")?
 				(<DIGIT>)+
 			)?
-		)?
+		)
 	>
 }
 
@@ -130,25 +143,31 @@ TOKEN:{
 
 // String tokens
 TOKEN:{
-	<QUOTE_DOUBLE: "\"">
-| <QUOTE_SINGLE: "'">
-}
-TOKEN:{
-	<STRING_SINGLE_EMPTY: "''">
+	<#QUOTE_DOUBLE: "\"">
+| <#QUOTE_SINGLE: "'">
+| <STRING_SINGLE_EMPTY: "''">
 | <STRING_DOUBLE_EMPTY: "\"\"">
-| <STRING_SINGLE_BODY: (
-		(~["'","\\","\r","\n","\f"]) |
+| <#STRING_SINGLE_BODY: (
+		(~["'","\\","\r","\n","\f","\t"]) |
 		( "\\" ( "r" | "n" | "f" | "\\" | "/" | "'" | "b" | "t" ) )
 	)+>
-| <STRING_DOUBLE_BODY: (
-		(~["\"","\\","\r","\n","\f"]) |
+| <#STRING_DOUBLE_BODY: (
+		(~["\"","\\","\r","\n","\f","\t"]) |
 		( "\\" ( "r" | "n" | "f" | "\\" | "/" | "\"" | "b" | "t" ) )
 	)+>
+| <STRING_SINGLE_NONEMPTY: <QUOTE_SINGLE> <STRING_SINGLE_BODY> <QUOTE_SINGLE>>
+| <STRING_DOUBLE_NONEMPTY: <QUOTE_DOUBLE> <STRING_DOUBLE_BODY> <QUOTE_DOUBLE>>
+}
+
+// Raw symbol tokens
+TOKEN:{
+	<SYMBOL: (["a"-"z", "A"-"Z", "0", "1"-"9"])+ >
 }
 
 
-void eof() : {}{
+boolean ensureEOF() : {}{
 	<EOF>
+	{ return true; }
 }
 
 Object anything() : { 
@@ -161,6 +180,25 @@ Object anything() : {
 	{ return x; }
 }
 
+String objectKey() : {
+	Object o;
+	String key;
+} {
+	(
+		key = string()
+	| key = symbol()
+	| ( 
+		nullValue()
+		{ key = null; }
+		)
+	| (
+			( o = booleanValue() | o = number() )
+			{ key = o.toString(); }
+		)
+	)
+	{ return key; }
+}
+
 LinkedHashMap<String,Object> object() : {
 	final LinkedHashMap<String,Object> map = new LinkedHashMap<String,Object>();
 	String key;
@@ -168,13 +206,15 @@ LinkedHashMap<String,Object> object() : {
 }{
 	<BRACE_OPEN>
 	[
-		key = string()
+		key = objectKey() 
+		<COLON>
 		value = anything()
 		{ map.put(key, value); }
 		{ key = null; value = null; }
 		(
 			<COMMA>
-			key = string()
+			key = objectKey()
+			<COLON>
 			value = anything()
 			{ map.put(key, value); }
 			{ key = null; value = null; }
@@ -201,7 +241,10 @@ ArrayList<Object> list() : {
 		)*
 	]
 	<BRACKET_CLOSE>
-	{ return list; }
+	{ 
+		list.trimToSize();
+		return list; 
+	}
 }
 
 Object value() : {
@@ -211,9 +254,6 @@ Object value() : {
 	| x = number()
 	| x = booleanValue()
 	| x = nullValue()
-	| LOOKAHEAD({ fallbackToString }) (
-		x = unquotedValue()
-	)
 	)
 	{ return x; }
 }
@@ -227,27 +267,27 @@ Boolean booleanValue(): {
 	Boolean b;
 }{
 	(
-		<TRUE>
-		{ b = Boolean.TRUE; }
-	) | (
-		<FALSE>
-		{ b = Boolean.FALSE; }
+		(
+			<TRUE>
+			{ b = Boolean.TRUE; }
+		) | (
+			<FALSE>
+			{ b = Boolean.FALSE; }
+		)	
 	)
 	{ return b; }
 }
 
-BigDecimal number(): {
+Number number(): {
 	Token t;
 }{ 
-	t = <NUMBER>
-	{ return new BigDecimal(t.image); }
-}
-
-String unquotedValue(): {
-	Token t;
-} {
-	t = <UNQUOTED_VALUE: (~[",","[","{","\r","\n","\f"])+ >
-	{ return t.image; }
+	(
+		t = <NUMBER_DECIMAL>
+		{ return new BigDecimal(t.image); }
+	) | (
+		t = <NUMBER_INTEGER>
+		{ return new BigInteger(substringBefore(t.image, '.')); }
+	)
 }
 
 String string() : {
@@ -266,10 +306,8 @@ String doubleQuoteString() : {
 		<STRING_DOUBLE_EMPTY>
 		{ return ""; }
 	) | (
-		<QUOTE_DOUBLE>
-		t = <STRING_DOUBLE_BODY>
-		<QUOTE_DOUBLE>
-		{ return t.image; }
+		t = <STRING_DOUBLE_NONEMPTY>
+		{ return t.image.substring(1, t.image.length()-1); }
 	)
 }
 
@@ -280,9 +318,14 @@ String singleQuoteString() : {
 		<STRING_SINGLE_EMPTY>
 		{ return ""; }
 	) | (
-		<QUOTE_SINGLE>
-		t = <STRING_SINGLE_BODY>
-		<QUOTE_SINGLE>
-		{ return t.image; }
+		t = <STRING_SINGLE_NONEMPTY>
+		{ return t.image.substring(1, t.image.length()-1); }
 	)
+}
+
+String symbol() : {
+	Token t;
+}{
+	t = <SYMBOL>
+	{ return t.image; }
 }
