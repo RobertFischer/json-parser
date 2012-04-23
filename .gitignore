@@ -3,3 +3,6 @@
 classes
 bin
 .settings
+.gradle
+.*.swp
+build
