@@ -1,0 +1,29 @@
+group = 'RobertFischer'
+version = '0.0.1-SNAPSHOT'
+
+apply plugin:'java'
+apply plugin:'groovy'
+apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
+
+//apply from:'http://smokejumperit.com/repo.gradle'
+//apply from:'http://smokejumperit.com/github-dev.gradle'
+
+buildscript {
+  repositories {
+		mavenLocal()
+		mavenCentral()	
+		mavenRepo url:'http://repo.smokejumperit.com'
+  }
+  dependencies {
+    classpath 'RobertFischer:gradle-javacc-plugin:0.0.4-SNAPSHOT'
+  }
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+dependencies {
+	groovy localGroovy()
+	testCompile 'com.fasterxml.jackson.core:jackson-core:2.0.0'
+}
