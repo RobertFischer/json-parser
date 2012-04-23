@@ -32,9 +32,9 @@ public class Foo {
 
 Also available on the `JSONParser` type: 
 
-* **`**InputStream**` and `**Reader**` constructors** - For your consuming convenience
-* `**parseObject()**` - Parses a JSON object into a `LinkedHashMap`
-* `**parseArray()**` - Parses a JSON array into an `ArrayList`
+* `InputStream` and `Reader` constructors - For your consuming convenience
+* `parseObject()` - Parses a JSON object into a `LinkedHashMap`
+* `parseArray()` - Parses a JSON array into an `ArrayList`
 
 License
 ---------
