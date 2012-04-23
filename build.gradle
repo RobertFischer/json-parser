@@ -1,5 +1,5 @@
 group = 'RobertFischer'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1.1'
 
 apply plugin:'java'
 apply plugin:'groovy'
@@ -7,6 +7,9 @@ apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
 
 apply from:'http://smokejumperit.com/repo.gradle'
 apply from:'http://smokejumperit.com/github-dev.gradle'
+
+sourceCompatibility = 7
+targetCompatibility = 7
 
 buildscript {
   repositories {
@@ -25,5 +28,4 @@ repositories {
 }
 dependencies {
 	groovy localGroovy()
-	testCompile 'com.fasterxml.jackson.core:jackson-core:2.0.0'
 }

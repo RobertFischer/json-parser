@@ -39,6 +39,8 @@ import java.math.*;
 */
 public class JSONParser {
 
+	private boolean nativeNumbers = false;
+
 	public JSONParser(String input) {
     this(new StringReader(input));
   }
@@ -74,6 +76,14 @@ public class JSONParser {
 		int pos = str.indexOf(delim);
 		if(pos == -1) return str;
 		return str.substring(0, pos);
+	}
+
+	public void setNativeNumbers(boolean value) {
+		this.nativeNumbers = value;
+	}
+
+	public boolean getNativeNumbers() {
+		return this.nativeNumbers;
 	}
 
 }
@@ -283,10 +293,22 @@ Number number(): {
 }{ 
 	(
 		t = <NUMBER_DECIMAL>
-		{ return new BigDecimal(t.image); }
+		{ 
+			if(nativeNumbers) {
+				return new Long(t.image);
+			} else {
+				return new BigDecimal(t.image); 
+			}
+		}
 	) | (
 		t = <NUMBER_INTEGER>
-		{ return new BigInteger(substringBefore(t.image, '.')); }
+		{ 
+			if(nativeNumbers) {
+				return new Double(t.image);
+			} else {
+				return new BigInteger(substringBefore(t.image, '.')); 
+			}
+		}
 	)
 }
 
