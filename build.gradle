@@ -10,9 +10,11 @@ version = "0.0.1.2"
 apply plugin:'groovy'
 apply plugin:com.smokejumperit.gradle.compiler.JavaccPlugin
 
+/*
 apply from:'http://gradle.smokejumperit.com/sjit_repo.gradle'
 apply from:'http://gradle.smokejumperit.com/github-dev.gradle'
 apply from:'http://gradle.smokejumperit.com/all-jars.gradle'
+*/
 
 buildscript {
   repositories {
@@ -21,7 +23,7 @@ buildscript {
 		mavenRepo url:'http://repo.smokejumperit.com'
   }
   dependencies {
-    classpath 'org.fogbeam.gradle:gradle-javacc-plugin:[0.0.5,1)'
+    classpath 'RobertFischer:gradle-javacc-plugin:0.0.5.4'
   }
 }
 

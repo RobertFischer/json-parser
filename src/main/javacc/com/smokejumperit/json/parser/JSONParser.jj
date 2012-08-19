@@ -19,7 +19,7 @@ options {
 
 PARSER_BEGIN(JSONParser)
 
-package com.smokejumperit.json.parser;
+package org.fogbeam.json.parser;
 
 import java.io.*;
 import java.util.*;
@@ -326,36 +326,39 @@ String string() : {
 String rubySymbol(): {
 }{
 	<RUBY_SYMBOL>
-	{ return t.image.substring(1); }
+	{ return token.image.substring(1); }
 }
 
 String doubleQuoteString() : {
-	Token t;
 }{
 	(
 		<STRING_DOUBLE_EMPTY>
 		{ return ""; }
 	) | (
-		t = <STRING_DOUBLE_NONEMPTY>
-		{ return t.image.substring(1, t.image.length()-1); }
+		<STRING_DOUBLE_NONEMPTY>
+		{ 
+			String image = token.image;
+			return image.substring(1, image.length()-1); 
+		}
 	)
 }
 
 String singleQuoteString() : {
-	Token t;
 }{
 	(
 		<STRING_SINGLE_EMPTY>
 		{ return ""; }
 	) | (
-		t = <STRING_SINGLE_NONEMPTY>
-		{ return t.image.substring(1, t.image.length()-1); }
+		<STRING_SINGLE_NONEMPTY>
+		{ 
+			String image = token.image;
+			return image.substring(1, image.length()-1); 
+		}
 	)
 }
 
 String symbol() : {
-	Token t;
 }{
-	t = <SYMBOL>
-	{ return t.image; }
+	<SYMBOL>
+	{ return token.image; }
 }

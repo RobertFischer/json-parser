@@ -13,6 +13,8 @@ None of the following is legitimate JSON code, yet you will find it in the wild.
 
 * *Bareword Keys* - Yup, that's invalid JSON. For reals.
 
+* *Ruby Symbols* - Because they're pervasive bugs across the internet.
+
 * *Large Numerical Value Support* - Not technically a fault, but most libraries parse integers and decimals using doubles or longs, which can be a problem if you have large values in your JSON. This library uses `BigDecimal` and `BigInteger` by default for more accurate parsing. You can shift to using double and long values by setting the `parser.nativeNumbers` property, but if you are thinking about setting that flag for performance reasons, you're almost certainly doing it wrong.
 
 Usage
@@ -21,7 +23,7 @@ Usage
 Here's a minimal example:
 
 ```java
-import com.smokejumperit.json.parser.JSONParser
+import org.fogbeam.json.parser.JSONParser;
 
 public class Foo {
 	public static void main(String[] args) {
@@ -30,7 +32,7 @@ public class Foo {
 }
 ```
 
-Also available on the `JSONParser` type: 
+Also available on the `JSONParser` class: 
 
 * `InputStream` and `Reader` constructors - For your consuming convenience
 * `parseObject()` - Parses a JSON object into a `LinkedHashMap`
